@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from ai_service import summarize_note, generate_tags, chat_about_note
+import traceback
 
 app = FastAPI()
 
@@ -26,6 +27,7 @@ async def summarize(req: NoteRequest):
         summary = summarize_note(req.content)
         return {"summary": summary}
     except Exception as e:
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -36,6 +38,7 @@ async def get_tags(req: NoteRequest):
         tags = generate_tags(req.content)
         return {"tags": tags}
     except Exception as e:
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -46,5 +49,6 @@ async def chat(req: ChatRequest):
         response = chat_about_note(req.note_content, req.history)
         return {"response": response}
     except Exception as e:
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 

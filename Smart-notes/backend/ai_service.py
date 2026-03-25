@@ -1,5 +1,9 @@
+from dotenv import load_dotenv
 import anthropic
 import json
+
+load_dotenv()
+aiModel = "claude-haiku-4-5-20251001"
 
 # Initialize the client just once
 # Automatically loads the API key from the environment variable ANTHROPIC_API_KEY
@@ -13,7 +17,7 @@ def summarize_note(note_content: str) -> str:
     """
 
     message = client.messages.create(
-        model = "claude-sonnet-4-20250514",
+        model = aiModel,
         max_tokens = 300,
         system = """Eres un asistente de productividad experto.
         Tu trabajo es resumir notas de forma clara y concisa.
@@ -37,7 +41,7 @@ def generate_tags(note_content: str) -> list[str]:
     datos estructurados faciles de usar en react.
     """
     message = client.messages.create(
-        model = "claude-sonnet-4-20250514",
+        model = aiModel,
         max_tokens = 150,
         system = """Eres un sistema de clasificación de notas.
         Responde ÚNICAMENTE con JSON válido, sin texto adicional.
@@ -70,7 +74,7 @@ def chat_about_note(note_content: str, conversation_history: list) -> str:
     """
 
     message = client.messages.create(
-        model = "claude-sonnet-4-20250514",
+        model = aiModel,
         max_tokens = 500,
         system = f"""Eres un asistente personal inteligente.
         El usuario está trabajando en esta nota:
